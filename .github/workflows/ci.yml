@@ -36,11 +36,11 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "KEY: ${{ secrets.KEY }}" | head -c 100 # Показує перші 100 символів ключа
-          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
+          echo "$KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ls -la ~/.ssh # Перевіряє права та вміст файлу
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        env:
+          KEY: ${{ secrets.KEY }}
 
       - name: Deploy via SSH
         run: |
