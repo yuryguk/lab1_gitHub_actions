@@ -38,15 +38,15 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy via SSH
+      - name: Show SSH Key
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+          cat ~/.ssh/id_rsa
 
       - name: Debug SSH connection
         run: |
           echo "Connecting to server..."
           ssh -v -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
 
-      - name: Show SSH Key
+      - name: Deploy via SSH
         run: |
-          cat ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
