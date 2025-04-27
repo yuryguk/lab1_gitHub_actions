@@ -25,10 +25,6 @@ jobs:
         run: |
           pytest
 
-      - name: Test SSH connection
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo Connected successfully"
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -43,15 +39,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-      - name: Show SSH Key
+      - name: Test SSH connection
         run: |
-          cat ~/.ssh/id_rsa
-
-      - name: Debug SSH connection
-        run: |
-          echo "Connecting to server..."
-          ssh -v -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+          echo "Testing SSH connection..."
+          ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo Connected successfully"
 
       - name: Deploy via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+          echo "Starting deployment..."
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
