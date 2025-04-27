@@ -24,6 +24,11 @@ jobs:
       - name: Run tests
         run: |
           pytest
+
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo Connected successfully"
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
