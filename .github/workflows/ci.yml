@@ -42,7 +42,7 @@ jobs:
       - name: Test SSH connection
         run: |
           echo "Testing SSH connection..."
-          ssh -v -i -T git@github.com ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo Connected successfully"
+          ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo Connected successfully"
 
       - name: Deploy via SSH
         run: |
