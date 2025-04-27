@@ -40,4 +40,13 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+
+      - name: Debug SSH connection
+        run: |
+          echo "Connecting to server..."
+          ssh -v -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+
+      - name: Show SSH Key
+        run: |
+          cat ~/.ssh/id_rsa
