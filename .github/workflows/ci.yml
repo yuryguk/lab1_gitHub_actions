@@ -37,9 +37,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H -p ${{ secrets.PORT }} ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          echo "Starting deployment..."
-          ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
+          echo "Starting deployment to ${{ secrets.HOST }}:${{ secrets.PORT }} as ${{ secrets.USERNAME }}"
+          ssh -v -i ~/.ssh/id_rsa -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash ~/deploy.sh'
